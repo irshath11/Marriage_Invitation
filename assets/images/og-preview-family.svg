@@ -29,9 +29,9 @@
   <!-- Bottom Right -->
   <polygon points="1148,562 1154,574 1166,574 1156,582 1160,594 1148,586 1136,594 1140,582 1130,574 1142,574" fill="#C5A880"/>
 
-  <!-- Welcome Typography -->
-  <text x="600" y="145" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="36" font-style="italic" fill="#16382C">Together with our families</text>
-  <text x="600" y="180" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" letter-spacing="4" fill="#8E6D38" text-transform="uppercase">Warmly invite you to celebrate the</text>
+  <!-- Bismillah Calligraphy (Text representation) -->
+  <text x="600" y="145" text-anchor="middle" font-family="'Amiri', 'Traditional Arabic', serif" font-size="38" fill="#16382C" direction="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</text>
+  <text x="600" y="185" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="14" letter-spacing="4" fill="#8E6D38" text-transform="uppercase">With the blessings of Allah</text>
 
   <!-- Bride & Groom Typography -->
   <text x="600" y="270" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="54" font-weight="600" fill="#16382C" letter-spacing="1">S. Thaiyeba Tasleema, <tspan font-family="'DM Sans', sans-serif" font-size="24" fill="#B38E5A">B.E.</tspan></text>
@@ -43,8 +43,8 @@
   <line x1="450" y1="445" x2="750" y2="445" stroke="#C5A880" stroke-width="1.2"/>
   <circle cx="600" cy="445" r="4" fill="#C5A880"/>
 
-  <!-- Wedding & Date -->
-  <text x="600" y="485" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="26" font-weight="600" letter-spacing="6" fill="#16382C">WEDDING CEREMONY &amp; RECEPTION</text>
-  <text x="600" y="520" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="17" font-weight="500" fill="#8E6D38">24th December (Karaikudi) &bull; 26th December (Thanjavur)</text>
-  <text x="600" y="550" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="15" fill="#4A534D">Prasanna Mahal &bull; City Thirumana Mahal</text>
+  <!-- Nikah & Date -->
+  <text x="600" y="485" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="28" font-weight="600" letter-spacing="6" fill="#16382C">NIKAH</text>
+  <text x="600" y="520" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="18" font-weight="500" fill="#8E6D38">Thursday, 24th December 2026 &bull; Hijri 1448 - Rajab 14 &bull; 11:30 AM onwards</text>
+  <text x="600" y="550" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="15" fill="#4A534D">Prasanna Mahal &bull; Karaikudi</text>
 </svg>

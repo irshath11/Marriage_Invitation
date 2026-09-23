@@ -1,12 +1,21 @@
 /**
- * LUXURY ISLAMIC WEDDING INVITATION — JAVASCRIPT CONTROLLER
+ * BESPOKE WEDDING INVITATION — JAVASCRIPT CONTROLLER
+ * Supports both Islamic / Muslim Edition & Friends / Colleagues Edition
  * 
  * Bride: S. Thaiyeba Tasleema, B.E.
  * Groom: S. Irshath Ahamed, B.E. (Senior Software Engineer, Fusion Groups - UAE)
- * Event: Nikah
- * Date: Thursday, 24th December 2026 (Hijri 1448 - Rajab 14)
- * Venue: Prasanna Mahal, Karaikudi
+ * Events: Wedding Ceremony (Nikah) & Reception
+ * Dates: 24th & 26th December 2026
+ * Venues: Prasanna Mahal, Karaikudi & City Thirumana Mahal, Thanjavur
  */
+
+// Detect active edition (Muslim / Islamic or Friends)
+const IS_MUSLIM_EDITION = 
+  document.documentElement.getAttribute('data-edition') === 'muslim' ||
+  window.location.pathname.includes('nikah') ||
+  window.location.pathname.includes('family') ||
+  new URLSearchParams(window.location.search).get('v') === 'muslim' ||
+  new URLSearchParams(window.location.search).get('type') === 'muslim';
 
 // ==========================================================================
 // 1. CENTRAL WEDDING CONFIGURATION (PRIMARY SOURCE OF TRUTH)
@@ -17,9 +26,9 @@ const WEDDING_CONFIG = {
   groomName: 'S. Irshath Ahamed',
   groomDegree: 'B.E.',
   groomDesignation: 'Senior Software Engineer, Fusion Groups - UAE',
-  eventTitle: 'Nikah & Reception',
+  eventTitle: IS_MUSLIM_EDITION ? 'Nikah & Reception' : 'Wedding & Reception',
   gregorianDateStr: '24th & 26th December 2026',
-  hijriDateStr: 'Hijri 1448 - Rajab 14',
+  hijriDateStr: IS_MUSLIM_EDITION ? 'Hijri 1448 - Rajab 14' : 'Thursday & Saturday',
   timeStr: '11:30 AM onwards',
   targetIsoDate: '2026-12-24T11:30:00+05:30',
   venueName: 'Prasanna Mahal',
@@ -27,11 +36,11 @@ const WEDDING_CONFIG = {
   googleMapsDestination: 'Prasanna Mahal, Near Sri Ram Nagar Railway Gate, Opposite Alagappa PET Ground, Karaikudi',
   googleMapsUrl: 'https://maps.google.com/?q=Prasanna+Mahal+Near+Sri+Ram+Nagar+Railway+Gate+Opposite+Alagappa+PET+Ground+Karaikudi',
 
-  // Event 1: Nikah (Solemnization of Marriage)
+  // Event 1: Ceremony (Nikah / Wedding Ceremony)
   nikah: {
-    eventTitle: 'Nikah',
+    eventTitle: IS_MUSLIM_EDITION ? 'Nikah' : 'Wedding Ceremony',
     gregorianDateStr: 'Thursday, 24th December 2026',
-    hijriDateStr: 'Hijri 1448 - Rajab 14',
+    hijriDateStr: IS_MUSLIM_EDITION ? 'Hijri 1448 - Rajab 14' : 'Auspicious Morning',
     timeStr: '11:30 AM onwards',
     targetIsoDate: '2026-12-24T11:30:00+05:30',
     startUtc: '20261224T060000Z',
@@ -41,7 +50,7 @@ const WEDDING_CONFIG = {
     googleMapsDirectionsUrl: 'https://maps.google.com/?q=Prasanna+Mahal+Near+Sri+Ram+Nagar+Railway+Gate+Opposite+Alagappa+PET+Ground+Karaikudi',
     googleMapsSearchUrl: 'https://maps.google.com/?q=Prasanna+Mahal+Karaikudi',
     gmapsEmbedUrl: 'https://maps.google.com/maps?q=Prasanna+Mahal,+Karaikudi,+Tamil+Nadu&t=&z=15&ie=UTF8&iwloc=&output=embed',
-    badgeText: 'Nikah Venue • Karaikudi',
+    badgeText: IS_MUSLIM_EDITION ? 'Nikah Venue • Karaikudi' : 'Wedding Venue • Karaikudi',
     tamilSubText: ''
   },
 
@@ -49,7 +58,7 @@ const WEDDING_CONFIG = {
   reception: {
     eventTitle: 'The Reception',
     gregorianDateStr: 'Saturday, 26th December 2026',
-    hijriDateStr: 'Hijri 1448 - Rajab 16',
+    hijriDateStr: IS_MUSLIM_EDITION ? 'Hijri 1448 - Rajab 16' : 'Noon Celebration',
     timeStr: '12:00 PM (Noon) onwards',
     targetIsoDate: '2026-12-26T12:00:00+05:30',
     startUtc: '20261226T063000Z',
@@ -621,15 +630,20 @@ class CalendarIntegration {
 
   updateLinks() {
     const isNikah = this.selectedEvent === 'nikah';
+    const isMuslim = IS_MUSLIM_EDITION;
     const title = encodeURIComponent(
       isNikah
-        ? 'Nikah - Thaiyeba Tasleema & Irshath Ahamed'
-        : 'Reception - Thaiyeba Tasleema & Irshath Ahamed'
+        ? (isMuslim ? 'Nikah - Thaiyeba Tasleema & Irshath Ahamed' : 'Wedding Ceremony - Thaiyeba Tasleema & Irshath Ahamed')
+        : (isMuslim ? 'Reception - Thaiyeba Tasleema & Irshath Ahamed' : 'Wedding Reception - Thaiyeba Tasleema & Irshath Ahamed')
     );
     const details = encodeURIComponent(
       isNikah
-        ? 'With the blessings of Allah, celebrating the sacred Nikah of S. Thaiyeba Tasleema, B.E. & S. Irshath Ahamed, B.E. (Senior Software Engineer, Fusion Groups - UAE).\nVenue: Prasanna Mahal, Karaikudi.'
-        : 'With the blessings of Allah, celebrating the Wedding Reception of S. Thaiyeba Tasleema, B.E. & S. Irshath Ahamed, B.E. (Senior Software Engineer, Fusion Groups - UAE).\nVenue: City Thirumana Mahal, Behind Rohini Hospital, Thanjavur.'
+        ? (isMuslim
+            ? 'With the blessings of Allah, celebrating the sacred Nikah of S. Thaiyeba Tasleema, B.E. & S. Irshath Ahamed, B.E. (Senior Software Engineer, Fusion Groups - UAE).\nVenue: Prasanna Mahal, Karaikudi.'
+            : 'Together with our families, celebrating the Wedding Ceremony of S. Thaiyeba Tasleema, B.E. & S. Irshath Ahamed, B.E. (Senior Software Engineer, Fusion Groups - UAE).\nVenue: Prasanna Mahal, Karaikudi.')
+        : (isMuslim
+            ? 'With the blessings of Allah, celebrating the Wedding Reception of S. Thaiyeba Tasleema, B.E. & S. Irshath Ahamed, B.E. (Senior Software Engineer, Fusion Groups - UAE).\nVenue: City Thirumana Mahal, Behind Rohini Hospital, Thanjavur.'
+            : 'Together with our families, celebrating the Wedding Reception of S. Thaiyeba Tasleema, B.E. & S. Irshath Ahamed, B.E. (Senior Software Engineer, Fusion Groups - UAE).\nVenue: City Thirumana Mahal, Behind Rohini Hospital, Thanjavur.')
     );
     const location = encodeURIComponent(
       isNikah
@@ -650,16 +664,17 @@ class CalendarIntegration {
 
   downloadIcsFile(mode = 'both') {
     let events = [];
+    const isMuslim = IS_MUSLIM_EDITION;
 
     if (mode === 'nikah' || mode === 'both') {
       events.push([
         'BEGIN:VEVENT',
-        'UID:nikah-thaiyeba-irshath-2026@wedding.com',
+        `UID:${isMuslim ? 'nikah' : 'wedding'}-thaiyeba-irshath-2026@wedding.com`,
         'DTSTAMP:20260901T000000Z',
         'DTSTART:20261224T060000Z',
         'DTEND:20261224T100000Z',
-        'SUMMARY:Nikah - Thaiyeba Tasleema & Irshath Ahamed',
-        'DESCRIPTION:With the blessings of Allah\\, celebrate the sacred Nikah of S. Thaiyeba Tasleema\\, B.E. and S. Irshath Ahamed\\, B.E. (Senior Software Engineer\\, Fusion Groups - UAE).',
+        `SUMMARY:${isMuslim ? 'Nikah' : 'Wedding Ceremony'} - Thaiyeba Tasleema & Irshath Ahamed`,
+        `DESCRIPTION:${isMuslim ? 'With the blessings of Allah\\, celebrate the sacred Nikah of S. Thaiyeba Tasleema\\, B.E. and S. Irshath Ahamed\\, B.E. (Senior Software Engineer\\, Fusion Groups - UAE).' : 'Together with our families\\, celebrate the Wedding Ceremony of S. Thaiyeba Tasleema\\, B.E. and S. Irshath Ahamed\\, B.E. (Senior Software Engineer\\, Fusion Groups - UAE).'}`,
         'LOCATION:Prasanna Mahal\\, Near Sri Ram Nagar Railway Gate\\, Opposite Alagappa PET Ground\\, Karaikudi',
         'STATUS:CONFIRMED',
         'SEQUENCE:0',
@@ -674,8 +689,8 @@ class CalendarIntegration {
         'DTSTAMP:20260901T000000Z',
         'DTSTART:20261226T063000Z',
         'DTEND:20261226T103000Z',
-        'SUMMARY:Reception - Thaiyeba Tasleema & Irshath Ahamed',
-        'DESCRIPTION:With the blessings of Allah\\, celebrate the Wedding Reception of S. Thaiyeba Tasleema\\, B.E. and S. Irshath Ahamed\\, B.E. (Senior Software Engineer\\, Fusion Groups - UAE). All are warmly invited to grace the celebrations with your presence and blessings.',
+        `SUMMARY:${isMuslim ? 'Reception' : 'Wedding Reception'} - Thaiyeba Tasleema & Irshath Ahamed`,
+        `DESCRIPTION:${isMuslim ? 'With the blessings of Allah\\, celebrate the Wedding Reception of S. Thaiyeba Tasleema\\, B.E. and S. Irshath Ahamed\\, B.E. (Senior Software Engineer\\, Fusion Groups - UAE). All are warmly invited to grace the celebrations with your presence and blessings.' : 'Together with our families\\, celebrate the Wedding Reception of S. Thaiyeba Tasleema\\, B.E. and S. Irshath Ahamed\\, B.E. (Senior Software Engineer\\, Fusion Groups - UAE). All are warmly invited to grace the celebrations with your presence and blessings.'}`,
         'LOCATION:City Thirumana Mahal\\, Behind Rohini Hospital\\, Thanjavur',
         'STATUS:CONFIRMED',
         'SEQUENCE:0',
@@ -694,7 +709,7 @@ class CalendarIntegration {
     ].join('\r\n');
 
     const filename = mode === 'nikah'
-      ? 'Nikah-Thaiyeba-Irshath.ics'
+      ? (isMuslim ? 'Nikah-Thaiyeba-Irshath.ics' : 'Wedding-Thaiyeba-Irshath.ics')
       : (mode === 'reception' ? 'Reception-Thaiyeba-Irshath.ics' : 'Wedding-Thaiyeba-Irshath-Full.ics');
 
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
@@ -718,15 +733,8 @@ class SharingExperience {
     this.initQrModal();
   }
 
-  initShareButtons() {
-    const whatsappBtn = document.getElementById('btn-share-whatsapp');
-    const copyBtn = document.getElementById('btn-share-copy');
-    const telegramBtn = document.getElementById('btn-share-telegram');
-    const emailBtn = document.getElementById('btn-share-email');
-
-    const shareUrl = window.location.href.split('#')[0];
-    const rawMsg =
-      `بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+  getMuslimShareText(url) {
+    return `بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
 With the blessings of Allah
 
 S. Thaiyeba Tasleema, B.E.
@@ -747,46 +755,108 @@ Saturday, 26th December 2026 • 12:00 PM onwards
 City Thirumana Mahal, Behind Rohini Hospital, Thanjavur.
 
 View Digital Wedding Invitation:
-${shareUrl}`;
+${url}`;
+  }
+
+  getFriendsShareText(url) {
+    return `S. Thaiyeba Tasleema, B.E.
+&
+S. Irshath Ahamed, B.E.
+(Senior Software Engineer, Fusion Groups - UAE)
+
+Together with our families, we cordially invite you to celebrate our Wedding Ceremony & Reception:
+
+✦ THE WEDDING CEREMONY
+Thursday, 24th December 2026 • 11:30 AM onwards
+Prasanna Mahal, Near Sri Ram Nagar Railway Gate, Opposite Alagappa PET Ground, Karaikudi.
+
+✦ THE RECEPTION
+Saturday, 26th December 2026 • 12:00 PM onwards
+City Thirumana Mahal, Behind Rohini Hospital, Thanjavur.
+
+View Digital Wedding Invitation:
+${url}`;
+  }
+
+  initShareButtons() {
+    const whatsappBtn = document.getElementById('btn-share-whatsapp');
+    const copyBtn = document.getElementById('btn-share-copy');
+    const telegramBtn = document.getElementById('btn-share-telegram');
+    const emailBtn = document.getElementById('btn-share-email');
+
+    const origin = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+    const muslimUrl = origin + 'nikah.html';
+    const friendsUrl = origin + (window.location.pathname.includes('friends') ? 'friends.html' : 'index.html');
+    const currentUrl = window.location.href.split('#')[0];
+
+    const currentMsg = IS_MUSLIM_EDITION
+      ? this.getMuslimShareText(currentUrl)
+      : this.getFriendsShareText(currentUrl);
 
     if (whatsappBtn) {
       whatsappBtn.addEventListener('click', () => {
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(rawMsg)}`, '_blank');
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(currentMsg)}`, '_blank');
       });
     }
 
     if (telegramBtn) {
-      telegramBtn.href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Nikah Invitation: S. Thaiyeba Tasleema & S. Irshath Ahamed')}`;
+      const subject = IS_MUSLIM_EDITION
+        ? 'Nikah Invitation: S. Thaiyeba Tasleema & S. Irshath Ahamed'
+        : 'Wedding Invitation: S. Thaiyeba Tasleema & S. Irshath Ahamed';
+      telegramBtn.href = `https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(subject)}`;
     }
 
     if (emailBtn) {
-      emailBtn.href = `mailto:?subject=${encodeURIComponent('Wedding Invitation: Thaiyeba Tasleema & Irshath Ahamed')}&body=${encodeURIComponent(rawMsg)}`;
+      const subject = IS_MUSLIM_EDITION
+        ? 'Nikah & Reception Invitation: Thaiyeba Tasleema & Irshath Ahamed'
+        : 'Wedding Invitation: Thaiyeba Tasleema & Irshath Ahamed';
+      emailBtn.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(currentMsg)}`;
     }
 
     if (copyBtn) {
       copyBtn.addEventListener('click', () => {
-        if (navigator.clipboard && window.isSecureContext) {
-          navigator.clipboard.writeText(shareUrl).then(() => this.showCopyToast());
+        this.copyToClipboard(currentUrl, 'Invitation link copied to clipboard!');
+      });
+    }
+
+    // Helper buttons to copy specific edition
+    document.querySelectorAll('.btn-copy-edition').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const edition = btn.getAttribute('data-target-edition');
+        if (edition === 'muslim') {
+          const textToCopy = this.getMuslimShareText(muslimUrl);
+          this.copyToClipboard(textToCopy, 'Islamic invitation text & link copied!');
         } else {
-          // Fallback copy
-          const temp = document.createElement('input');
-          temp.value = shareUrl;
-          document.body.appendChild(temp);
-          temp.select();
-          document.execCommand('copy');
-          document.body.removeChild(temp);
-          this.showCopyToast();
+          const textToCopy = this.getFriendsShareText(friendsUrl);
+          this.copyToClipboard(textToCopy, 'Friends invitation text & link copied!');
         }
       });
+    });
+  }
+
+  copyToClipboard(text, successMsg) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => this.showCopyToast(successMsg));
+    } else {
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      this.showCopyToast(successMsg);
     }
   }
 
-  showCopyToast() {
+  showCopyToast(customMsg) {
     const toast = document.getElementById('toast-copied');
     if (!toast) return;
+    const span = toast.querySelector('span');
+    if (span && customMsg) span.textContent = customMsg;
     toast.classList.add('is-visible');
     setTimeout(() => {
       toast.classList.remove('is-visible');
+      if (span) span.textContent = 'Invitation link copied to clipboard!';
     }, 3200);
   }
 
@@ -1263,7 +1333,7 @@ class BlessingsWallController {
     this.updateCounterUI();
 
     // Show toast
-    this.showToast(text || 'Dua and blessings sent with heartfelt love!');
+    this.showToast(text || 'Warm wishes and blessings sent with heartfelt love!');
   }
 
   handleShowerAll() {
@@ -1275,12 +1345,12 @@ class BlessingsWallController {
     localStorage.setItem('wedding_blessing_count', String(this.blessingCount));
     this.updateCounterUI();
 
-    this.showToast('Alhamdulillah! Golden petals and prayers showered upon Thaiyeba &amp; Irshath ✨');
+    this.showToast('Celebration! Golden petals and warm wishes showered upon Thaiyeba &amp; Irshath ✨');
   }
 
   updateCounterUI() {
     if (this.counterElem) {
-      this.counterElem.textContent = `${this.blessingCount.toLocaleString()} Blessings Sent`;
+      this.counterElem.textContent = `${this.blessingCount.toLocaleString()} Wishes Sent`;
     }
   }
 
